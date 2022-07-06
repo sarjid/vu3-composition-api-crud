@@ -7,6 +7,8 @@
           class="btn btn-sm btn-primary float-right"
           >Add New</router-link
         >
+
+        <span v-if="students.data">{{ students.meta.total }}</span>
         <table class="table">
           <thead>
             <tr>
@@ -18,14 +20,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(student,index) in students" :key="student.id">
-              <th scope="row">{{++index}}</th>
-              <td>{{student.name}}</td>
-              <td>{{student.email}}</td>
-              <td>{{student.phone}}</td>
+            <tr v-for="(student, index) in students.data" :key="student.id">
+              <th scope="row">{{ ++index }}</th>
+              <td>{{ student.name }}</td>
+              <td>{{ student.email }}</td>
+              <td>{{ student.phone }}</td>
               <td>
                 <a href="" class="btn btn-sm btn-info">Edit</a>
-                <a href="" class="btn btn-sm btn-danger">Delete</a>
+                <button
+                  @click="deleteData(student.id)"
+                  class="btn btn-sm btn-danger"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           </tbody>
@@ -40,11 +47,20 @@ import useStudents from "../composable/student";
 import { onMounted } from "vue";
 export default {
   setup() {
-    const { students, getStudents } = useStudents();
-
+    const { students, getStudents, deleteStudent } = useStudents();
     onMounted(getStudents);
+
+    const deleteData = async (id) => {
+      if (!window.confirm("Are You Shure Delete?")) {
+        return;
+      }
+
+      await deleteStudent(id);
+      await getStudents();
+    };
     return {
       students,
+      deleteData,
     };
   },
 };
