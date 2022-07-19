@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import createNew from "../views/AddNew.vue";
+import editStudent from "../views/EditStudent.vue";
 
 const routes = [
   {
@@ -13,6 +14,13 @@ const routes = [
     path: "/create",
     name: "createNew",
     component: createNew,
+  },
+
+  {
+    path: "/students/:id/edit",
+    name: "edit.student",
+    component: editStudent,
+    props:true
   },
 
   {
