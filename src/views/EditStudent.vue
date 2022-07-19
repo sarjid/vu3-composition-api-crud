@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 m-auto justify-center">
-          <form>
+          <form @submit.prevent="update">
             <div class="form-group">
               <label for="name">Name</label>
               <input
@@ -62,11 +62,16 @@ export default {
     },
   },
   setup(props) {
-    const { student, errors, getSingleStudent } = useStudents();
+    const { student, errors, getSingleStudent, updateStudent } = useStudents();
     onMounted(getSingleStudent(props.id));
+
+    const update = async () => {
+      await updateStudent(props.id);
+    };
     return {
       student,
       errors,
+      update,
     };
   },
 };

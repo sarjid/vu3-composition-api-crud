@@ -33,6 +33,18 @@ export default function useStudents() {
     student.value = response.data.data;
   };
 
+  const updateStudent = async (id) => {
+    errors.value = "";
+    try {
+      await axios.put("http://127.0.0.1:8000/api/student/" + id, student.value);
+      await router.push({ name: "about" });
+    } catch (e) {
+      if (e.response.status === 422) {
+        errors.value = e.response.data.errors;
+      }
+    }
+  };
+
   return {
     students,
     errors,
@@ -41,5 +53,6 @@ export default function useStudents() {
     deleteStudent,
     storeStudent,
     getSingleStudent,
+    updateStudent,
   };
 }
